@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);
+  body {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    background: rgba(51, 51, 56, 1);
+    margin: 0;
+    padding: 0;
+  }
+  input {
+    width:30px; 
+    height:30px;
+    background-color: rgba(51, 51, 56, 1);
+    color: white;
+    border-color: white;
+  }
+
+input[type="text"]
+{
+    font-family: 'Quicksand', sans-serif;
+    font-size:24px;
+    padding: 10px;
+}
+  
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+}
+  
+   .btn {
+    transition: all .5s ease;
+    color: rgb(238, 130, 238);
+  }
+  
+   .btn:hover span {
+    color: rgb(255, 255, 255);
+    transition: all .2s ease;
+  }
+  
+  
+</style>
+  
+<body>
+  <h2>SIMPLE WEB DETERMINANT CALCULATOR</h2>
+  <br>
+  Enter size of the square matrix:
+  <input id="num" type="text"/>
+  
+  <div class="btn">
+    
+  <span onclick="getN()">Done</span>
+  </div>
+  
+  
+  <div id = "p">
+
+  </div>
+
+  <div id = "result">
+    
+  </div>
+
+
+  
+  <script>
+
+
+    
+    
+    function getN(){
+    var n = parseInt(document.getElementById('num').value, 10);
+
+      
+  var paragraph = document.getElementById("p");
+  var text = ("<br>");
+  for(let i = 0; i < n; i++){
+    text = text + ("<br>");
+    for(let j = 0; j < n; j++){
+      text = text + ( "<input id=\""+i+"_"+j+"\" type=\"text\" />" );
+    }
+  }
+
+  text = text + "<br> <div class=\"btn\"><span onclick=\"calculate()\">Calculate</span></div>"
+
+paragraph.innerHTML = text;
+}
+
+function calculate(){
+  var matrix = [];
+
+console.log( matrix.join('\n') );
+
+  var n = parseInt(document.getElementById('num').value, 10);
+  
+  for(let i = 0; i < n; i++){
+    matrix[ i ] = []
+    for(let j = 0; j < n; j++){
+      matrix[ i ][ j ] = parseInt(document.getElementById(i+'_'+j).value, 10);
+    }
+  }
+
+
+  document.getElementById("result").innerHTML = "Matrix determinant = " + det(n, matrix);
+  
+}
+
+
+        
+function det( n, a){
+  if(n==2){
+    return a[0][0]*a[1][1] - a[1][0]*a[0][1];
+  }
+  else{
+       var detfin = 0;
+       var buf = [];
+       for(let i = 0; i < n-1; i++){
+         buf[i] = [];
+       };
+       for(let i = 0; i < n; i++){
+       for(let j = 0; j < n; j++){
+       let row = 0;
+       for(let k = 0; k < (n-1); k++){
+
+       let col=0; 
+       for(let l = 0; l < (n-1); l++){
+
+       if(row === (i)){
+         row++;
+       }
+       if(col === (j)){
+         col++;
+       }
+          buf[k][l] = a[row][col];
+          col++;
+      }
+
+
+      row++;
+     }
+     
+     detfin = detfin + ((a[0][j]*det(n-1, buf))*Math.pow(-1, i+j));
+    }
+    if(i === 0){
+        break;
+    }
+   }
+   return detfin;
+}
+}
+    
+  </script>
+  
+</body>
+
+</html>
