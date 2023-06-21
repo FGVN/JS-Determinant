@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>replit</title>
@@ -11,6 +11,7 @@
 
 <style>
   @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);
+
   body {
     font-family: 'Quicksand', sans-serif;
     font-size: 28px;
@@ -20,152 +21,235 @@
     margin: 0;
     padding: 0;
   }
+
   input {
-    width:30px; 
-    height:30px;
+    width: 30px;
+    height: 30px;
     background-color: rgba(51, 51, 56, 1);
     color: white;
     border-color: white;
   }
 
-input[type="text"]
-{
+  input[type="text"] {
     font-family: 'Quicksand', sans-serif;
-    font-size:24px;
+    font-size: 24px;
     padding: 10px;
-}
-  
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
     -webkit-text-fill-color: white !important;
-}
-  
-   .btn {
+  }
+
+  .btn {
     transition: all .5s ease;
     color: rgb(238, 130, 238);
   }
-  
-   .btn:hover span {
+
+  .btn:hover span {
     color: rgb(255, 255, 255);
     transition: all .2s ease;
   }
-  
-  
+
+  select {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    background: rgba(51, 51, 56, 1);
+  }
 </style>
-  
+
 <body>
   <h2>SIMPLE WEB DETERMINANT CALCULATOR</h2>
   <br>
+
+  <select id="selector">
+    <option value="1">Find matrix determinant</option>
+    <option value="2">Solve a system of equations</option>
+  </select>
+  <br>
   Enter size of the square matrix:
-  <input id="num" type="text"/>
-  
+  <input id="num" type="text" />
+
   <div class="btn">
-    
-  <span onclick="getN()">Done</span>
-  </div>
-  
-  
-  <div id = "p">
 
-  </div>
 
-  <div id = "result">
-    
+    <span onclick="getN()">Done</span>
   </div>
 
 
+  <div id="p">
+
+  </div>
+
+  <div id="result">
+
+  </div>
+<br>
+<br>
+<br>
+<br>
   
+
+
   <script>
+    function getN() {
+      var n = parseInt(document.getElementById('num').value, 10);
 
 
-    
-    
-    function getN(){
-    var n = parseInt(document.getElementById('num').value, 10);
+      var e = document.getElementById("selector");
+      var value = e.value;
 
-      
-  var paragraph = document.getElementById("p");
-  var text = ("<br>");
-  for(let i = 0; i < n; i++){
-    text = text + ("<br>");
-    for(let j = 0; j < n; j++){
-      text = text + ( "<input id=\""+i+"_"+j+"\" type=\"text\" />" );
+      var paragraph = document.getElementById("p");
+      var text = ("<br>");
+      for (let i = 0; i < n; i++) {
+        text = text + ("<br>");
+        for (let j = 0; j < n; j++) {
+          text = text + ("<input id=\"" + i + "_" + j + "\" type=\"text\" />");
+          if (value === "2"){
+            text=text+("X" + j);
+          }
+          if (value === "2" && j != n - 1) {
+            text = text + (" + ");
+          }
+        }
+        if (value === "2") {
+          text = text + (" = <input id=\"" + i + "\" type=\"text\" />");
+        }
+      }
+
+      text = text + "<br> <div class=\"btn\"><span onclick=\"calculate()\">Calculate</span></div>"
+
+      paragraph.innerHTML = text;
+
+
+
     }
-  }
 
-  text = text + "<br> <div class=\"btn\"><span onclick=\"calculate()\">Calculate</span></div>"
+    function calculate() {
+      var matrix = [];
 
-paragraph.innerHTML = text;
-}
+      console.log(matrix.join('\n'));
 
-function calculate(){
-  var matrix = [];
+      var n = parseInt(document.getElementById('num').value, 10);
 
-console.log( matrix.join('\n') );
+      var e = document.getElementById("selector");
+      var value = e.value;
 
-  var n = parseInt(document.getElementById('num').value, 10);
-  
-  for(let i = 0; i < n; i++){
-    matrix[ i ] = []
-    for(let j = 0; j < n; j++){
-      matrix[ i ][ j ] = parseInt(document.getElementById(i+'_'+j).value, 10);
-    }
-  }
-
-
-  document.getElementById("result").innerHTML = "Matrix determinant = " + det(n, matrix);
-  
-}
-
-
-        
-function det( n, a){
-  if(n==2){
-    return a[0][0]*a[1][1] - a[1][0]*a[0][1];
-  }
-  else{
-       var detfin = 0;
-       var buf = [];
-       for(let i = 0; i < n-1; i++){
-         buf[i] = [];
-       };
-       for(let i = 0; i < n; i++){
-       for(let j = 0; j < n; j++){
-       let row = 0;
-       for(let k = 0; k < (n-1); k++){
-
-       let col=0; 
-       for(let l = 0; l < (n-1); l++){
-
-       if(row === (i)){
-         row++;
-       }
-       if(col === (j)){
-         col++;
-       }
-          buf[k][l] = a[row][col];
-          col++;
+      for (let i = 0; i < n; i++) {
+        matrix[i] = []
+        for (let j = 0; j < n; j++) {
+          matrix[i][j] = parseInt(document.getElementById(i + '_' + j).value, 10);
+        }
       }
 
 
-      row++;
-     }
-     
-     detfin = detfin + ((a[0][j]*det(n-1, buf))*Math.pow(-1, i+j));
+      if (value === "1") {
+        document.getElementById("result").innerHTML = "Matrix determinant = " + det(n, matrix);
+      }
+
+
+      if (value === "2") {                                    //обрахунок визначника матриці та перевірка на рівність нулю
+
+        var vect = [];
+        console.log("here");
+        for (let i = 0; i < n; i++) {
+          vect[i] = parseInt(document.getElementById(i).value, 10);
+        }
+
+        var a = [];
+        for (let i = 0; i < n; i++) {
+          a[i] = [];
+          for (let j = 0; j < n; j++) {
+            a[i][j] = parseInt(document.getElementById(i + '_' + j).value, 10);
+          }
+          a[i][n] = parseInt(document.getElementById(i).value, 10);
+        }
+
+        var text = "";
+        if (det(n, a) == 0) {
+          text = text + ("<br><br>Main determinant = 0, so equasion can not be solved");
+          return;
+        }
+        //вивід визначника
+        text = text + ("<br><br>Main determinant = " + det(n, a));
+
+
+        //console.log(a);
+        var detbuf = [];
+        for (let k = 0; k < n; k++) {
+          for (let i = 0; i < n; i++) {
+            //почергово підставляємо вектор-стовпчик в кожен стовпець основної матриці
+            detbuf[i] = [];
+            for (let j = 0; j < n; j++) {
+              if (j == k) {
+                detbuf[i][j] = vect[i];
+              }
+              else {
+                detbuf[i][j] = a[i][j];
+              }
+            }
+
+          }
+          //виводимо результат ділення визначника основної матриці та утворених підстановкою в консоль та файл
+          text = text + ("<br>determinant " + k + " = " + det(n, detbuf));
+          let res = (det(n, detbuf) * 1.0 / det(n, a));
+          text = text + ("<br>x" + k + " = " + res);
+        }
+        document.getElementById("result").innerHTML = text;
+      }
     }
-    if(i === 0){
-        break;
+
+
+
+    function det(n, a) {
+      if (n == 2) {
+        return a[0][0] * a[1][1] - a[1][0] * a[0][1];
+      }
+      else {
+        var detfin = 0;
+        var buf = [];
+        for (let i = 0; i < n - 1; i++) {
+          buf[i] = [];
+        };
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n; j++) {
+            let row = 0;
+            for (let k = 0; k < (n - 1); k++) {
+
+              let col = 0;
+              for (let l = 0; l < (n - 1); l++) {
+
+                if (row === (i)) {
+                  row++;
+                }
+                if (col === (j)) {
+                  col++;
+                }
+                buf[k][l] = a[row][col];
+                col++;
+              }
+
+
+              row++;
+            }
+
+            detfin = detfin + ((a[0][j] * det(n - 1, buf)) * Math.pow(-1, i + j));
+          }
+          if (i === 0) {
+            break;
+          }
+        }
+        return detfin;
+      }
     }
-   }
-   return detfin;
-}
-}
-    
+
   </script>
-  
+
 </body>
 
 </html>
